@@ -1,8 +1,8 @@
 // ignore: depend_on_referenced_packages
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:money_tracker/home.dart';
 
-import 'home/home.dart';
 import 'utils/color_schemes.dart';
 
 void main() {
@@ -34,16 +34,13 @@ class _SplashPageState extends State<SplashPage> {
   Future<Widget> futureCall() async {
     // do all async operations ( api call, auto login)
     return Future.delayed(
-        const Duration(seconds: 10),
-        (() => const MyHomePage(
-              title: 'yi',
-            )));
+        const Duration(seconds: 10), (() => const HomePage()));
   }
 
   @override
   Widget build(BuildContext context) {
     return EasySplashScreen(
-      logo: Image.asset('lib/utils/assets/flutter_joke.png'),
+      logo: Image.asset('assets/flutter_joke.png'),
       title: const Text(
         "Title",
         style: TextStyle(
