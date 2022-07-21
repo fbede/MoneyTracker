@@ -1,7 +1,10 @@
 // ignore: depend_on_referenced_packages
 import 'package:easy_splash_screen/easy_splash_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:money_tracker/home.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'utils/color_schemes.dart';
 
@@ -33,8 +36,25 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   Future<Widget> futureCall() async {
     // do all async operations ( api call, auto login)
-    return Future.delayed(
-        const Duration(seconds: 10), (() => const HomePage()));
+    WidgetsFlutterBinding.ensureInitialized();
+
+    if ((defaultTargetPlatform == TargetPlatform.windows) ||
+        (defaultTargetPlatform == TargetPlatform.linux)) {
+      const firebaseOptions = FirebaseOptions(
+        appId: String.fromEnvironment('FIREBASE_APP_ID'),
+        apiKey: String.fromEnvironment('FIREBASE_API_KEY'),
+        projectId: String.fromEnvironment('FIREBASE_PROJECT_ID'),
+        messagingSenderId: String.fromEnvironment('FIREBASE_SENDER_ID'),
+        authDomain: String.fromEnvironment('FIREBASE_AUTH_DOMAIN'),
+      );
+      await Firebase.initializeApp(options: firebaseOptions);
+    } else {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    }
+
+    return Future.value(const HomePage());
   }
 
   @override

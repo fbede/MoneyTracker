@@ -21,6 +21,15 @@ class _HomePageState extends State<HomePage> {
         index: _currentIndex,
         children: pages,
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        elevation: 5,
+        //isExtended: true,
+        icon: const Icon(Icons.add),
+        label: const Text('Add'),
+        onPressed: _openBottomSheet,
+      ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
       bottomNavigationBar: BottomNavigationBar(
           landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
           elevation: 2,
@@ -46,5 +55,37 @@ class _HomePageState extends State<HomePage> {
                 label: 'Settings')
           ]),
     ));
+  }
+
+  void _openBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+            ),
+            child: Column(
+              children: const <Widget>[
+                ListTile(
+                  leading: Icon(Icons.ac_unit),
+                  title: Text('Cooling'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.ac_unit),
+                  title: Text('Cooling'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.ac_unit),
+                  title: Text('Cooling'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.ac_unit),
+                  title: Text('Cooling'),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

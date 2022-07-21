@@ -28,11 +28,15 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.2
+  firebase_core: ^1.19.2
+  firebase_core_dart: ^1.0.1
+  firebase_core_desktop: ^1.0.1
   flutter:
     sdk: flutter
 
 dev_dependencies:
   easy_splash_screen: ^1.0.3
+  flutter_config: ^2.0.0
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
