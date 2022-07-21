@@ -2,7 +2,7 @@
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:money_tracker/home.dart';
+import 'package:money_tracker/auth/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -34,10 +34,11 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  // Handles all async operations then starts the actual app
   Future<Widget> futureCall() async {
-    // do all async operations ( api call, auto login)
     WidgetsFlutterBinding.ensureInitialized();
 
+    //Initialize firebase
     if ((defaultTargetPlatform == TargetPlatform.windows) ||
         (defaultTargetPlatform == TargetPlatform.linux)) {
       const firebaseOptions = FirebaseOptions(
@@ -54,7 +55,8 @@ class _SplashPageState extends State<SplashPage> {
       );
     }
 
-    return Future.value(const HomePage());
+    //start actual app
+    return Future.value(const LoginPage());
   }
 
   @override
