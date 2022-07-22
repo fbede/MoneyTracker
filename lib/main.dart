@@ -41,14 +41,14 @@ class _SplashPageState extends State<SplashPage> {
     //Initialize firebase
     if ((defaultTargetPlatform == TargetPlatform.windows) ||
         (defaultTargetPlatform == TargetPlatform.linux)) {
-      const firebaseOptions = FirebaseOptions(
+      /* const firebaseOptions = FirebaseOptions(
         appId: String.fromEnvironment('FIREBASE_APP_ID'),
         apiKey: String.fromEnvironment('FIREBASE_API_KEY'),
         projectId: String.fromEnvironment('FIREBASE_PROJECT_ID'),
         messagingSenderId: String.fromEnvironment('FIREBASE_SENDER_ID'),
         authDomain: String.fromEnvironment('FIREBASE_AUTH_DOMAIN'),
-      );
-      await Firebase.initializeApp(options: firebaseOptions);
+      ); */
+      await Firebase.initializeApp(options: DefaultFirebaseOptions.web);
     } else {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
