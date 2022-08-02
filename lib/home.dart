@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_tracker/dashboard/dashboard_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   // TODO: Add actual pages to list below
-  final pages = <Widget>[];
+  final pages = <Widget>[const DashboardPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +24,12 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         elevation: 5,
-        //isExtended: true,
-        icon: const Icon(Icons.add),
         label: const Text('Add'),
         onPressed: _openBottomSheet,
+        icon: const Icon(Icons.add),
       ),
       floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterFloat,
+          FloatingActionButtonLocation.miniCenterDocked,
       bottomNavigationBar: BottomNavigationBar(
           landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
           elevation: 2,
@@ -45,6 +45,8 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(Icons.menu_outlined),
                 activeIcon: Icon(Icons.menu),
                 label: 'Accounts'),
+            BottomNavigationBarItem(
+                icon: SizedBox(), activeIcon: SizedBox(), label: ''),
             BottomNavigationBarItem(
                 icon: Icon(Icons.receipt_outlined),
                 activeIcon: Icon(Icons.receipt),

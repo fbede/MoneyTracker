@@ -11,7 +11,7 @@ abstract class ResponsivePage extends Widget {
           (MediaQuery.of(context).size.height));
       if ((constraints.maxWidth > 400) && (aspectRatio >= 0.6)) {
         // TODO activate desktop pages by changing line below
-        return mobilePage;
+        return desktopPage;
       } else {
         return mobilePage;
       }
