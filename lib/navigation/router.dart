@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:money_tracker/navigation/cubit/navigation_cubit.dart';
+import 'package:money_tracker/main.dart';
+
+import '../auth/auth_page.dart';
+import 'blocs/navigation_cubit.dart';
 
 class AppRouter extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
@@ -23,9 +26,23 @@ class AppRouter extends RouterDelegate
         child: BlocConsumer<NavigationCubit, NavigationState>(
           listener: (context, state) {},
           builder: (context, state) => Navigator(
-            pages: state.pages,
+            pages: [
+              SignInPage.page(),
+              SignUpPage.page(),
+              //SplashPage.page(),
+            ],
+            onPopPage: (route, result) => _onPopPage.call(route, result),
           ),
         ));
+  }
+
+  bool _onPopPage(Route<dynamic> route, dynamic result) {
+    final didPop = route.didPop(result);
+    if (!didPop) {
+      return false;
+    }
+
+    return true;
   }
 
   @override

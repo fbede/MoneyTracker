@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:money_tracker/auth/auth_page.dart';
 
-part 'navigation_state.dart';
+part 'navigation_state_old.dart';
 
 class NavigationCubit extends Cubit<NavigationState> {
   NavigationCubit() : super(NavigationInitial());

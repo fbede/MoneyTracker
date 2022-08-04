@@ -7,30 +7,15 @@ import '../navigation/app_pages.dart';
 import '../utils/responsive_page.dart';
 import 'signup_page_body.dart';
 
-class AuthPage extends StatefulWidget {
+class AuthPage extends StatelessWidget {
   const AuthPage({Key? key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _AuthPageState();
-}
-
-class _AuthPageState extends State<AuthPage> {
-  //TODO: CHANGE TO TRUE FOR PRODUCTION
-  bool isLogin = false;
-  void toggleAuthPages() => setState(() => isLogin = !isLogin);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return const HomePage();
-          } else if (isLogin) {
-            return LoginPage();
-          } else {
-            return const SignUpPage();
-          }
+          return const SignInPage();
         });
   }
 }
@@ -53,14 +38,14 @@ class SignUpPage extends StatelessWidget {
   }
 }
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class SignInPage extends StatelessWidget {
+  const SignInPage({Key? key}) : super(key: key);
 
   static MaterialPage page() {
     return MaterialPage(
       name: AppPages.signInPath,
       key: ValueKey(AppPages.signInPath),
-      child: const SignUpPage(),
+      child: const SignInPage(),
     );
   }
 
