@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
           home: const SplashPage(),
           //check constants.dart file for details
           title: appName,
+          themeMode: ThemeMode.system,
           theme: ThemeData(
               colorScheme: lightColorScheme,
               visualDensity: VisualDensity.adaptivePlatformDensity),
@@ -90,9 +91,19 @@ class SplashPage extends StatelessWidget {
     final GoRouter router = GoRouter(routes: appRoutes);
     return Future.delayed(const Duration(seconds: 6), (() {
       return MaterialApp.router(
-          routeInformationParser: router.routeInformationParser,
-          routeInformationProvider: router.routeInformationProvider,
-          routerDelegate: router.routerDelegate);
+        routeInformationParser: router.routeInformationParser,
+        routeInformationProvider: router.routeInformationProvider,
+        routerDelegate: router.routerDelegate,
+        //repeated here, descendant widgets use this
+        title: appName,
+        themeMode: ThemeMode.system,
+        theme: ThemeData(
+            colorScheme: lightColorScheme,
+            visualDensity: VisualDensity.adaptivePlatformDensity),
+        darkTheme: ThemeData(
+            colorScheme: darkColorScheme,
+            visualDensity: VisualDensity.adaptivePlatformDensity),
+      );
     }));
   }
 }

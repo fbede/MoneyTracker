@@ -12,7 +12,9 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   // TODO: Add actual pages to list below
-  final pages = <Widget>[const DashboardPage()];
+  final pages = <Widget>[
+    const DashboardPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +37,15 @@ class _HomePageState extends State<HomePage> {
           elevation: 2,
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
-          onTap: (index) => setState(() => _currentIndex = index),
+          onTap: (index) => setState(() {
+                if (index != 2) {
+                  _currentIndex = index;
+                }
+              }),
           items: const [
             BottomNavigationBarItem(
-                icon: Icon(Icons.dashboard_customize_outlined),
-                activeIcon: Icon(Icons.dashboard_customize),
+                icon: Icon(Icons.home_outlined),
+                activeIcon: Icon(Icons.home_filled),
                 label: 'Dashboard'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.menu_outlined),

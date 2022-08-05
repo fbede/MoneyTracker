@@ -2,17 +2,25 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-Widget getLoginPageBody() {
-  return const _MobileLoginPage();
-}
+import '../utils/responsive_page.dart';
 
-class _MobileLoginPage extends StatefulWidget {
-  const _MobileLoginPage();
+class LogInPage extends StatelessWidget {
+  const LogInPage({Key? key}) : super(key: key);
+
   @override
-  State<_MobileLoginPage> createState() => _MobileLoginPageState();
+  Widget build(BuildContext context) {
+    return ResponsivePage.buildResponsivePage(
+        const _MobileLogInPage(), const _DesktopLoginPage());
+  }
 }
 
-class _MobileLoginPageState extends State<_MobileLoginPage> {
+class _LoginPageBody extends StatefulWidget {
+  const _LoginPageBody();
+  @override
+  State<_LoginPageBody> createState() => _LoginPageBodyState();
+}
+
+class _LoginPageBodyState extends State<_LoginPageBody> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -108,4 +116,40 @@ class _MobileLoginPageState extends State<_MobileLoginPage> {
       ),
     );
   }
+}
+
+class _MobileLogInPage extends StatelessWidget {
+  const _MobileLogInPage();
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+            body: Padding(
+      padding: const EdgeInsetsDirectional.only(start: 16.0, end: 16.0),
+      child: Center(
+        child: getLoginPageBody(),
+      ),
+    )));
+  }
+}
+
+class _DesktopLoginPage extends StatelessWidget {
+  const _DesktopLoginPage();
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+            body: Padding(
+      padding: const EdgeInsetsDirectional.only(start: 16.0, end: 16.0),
+      child: Center(
+        child: getLoginPageBody(),
+      ),
+    )));
+  }
+}
+
+Widget getLoginPageBody() {
+  return const _LoginPageBody();
 }

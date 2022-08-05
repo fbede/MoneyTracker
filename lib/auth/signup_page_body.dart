@@ -3,6 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+
+import 'auth_methods.dart';
 
 Widget getSignUpPageBody() {
   return const _SignUpPageBody();
@@ -23,6 +26,7 @@ class _SignUpPageBodyState extends State<_SignUpPageBody> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: [
+        //const SizedBox(height: 32),
         Text(
           'Create Account',
           style: Theme.of(context).textTheme.displaySmall,
@@ -62,7 +66,7 @@ class _SignUpPageBodyState extends State<_SignUpPageBody> {
                   onChanged: (v) => setState(() {
                     password = v;
                   }),
-                  validator: (v) => checkPassword(v),
+                  validator: (v) => _checkPassword(v),
                 ),
                 const SizedBox(height: 24),
                 TextFormField(
@@ -75,7 +79,7 @@ class _SignUpPageBodyState extends State<_SignUpPageBody> {
                   onChanged: (v) => setState(() {
                     cpassword = v;
                   }),
-                  validator: (v) => checkPassword(v),
+                  validator: (v) => _checkPassword(v),
                 )
               ],
             )),
@@ -84,7 +88,8 @@ class _SignUpPageBodyState extends State<_SignUpPageBody> {
           style: ElevatedButton.styleFrom(
             minimumSize: const Size.fromHeight(40),
           ),
-          onPressed: signInWithEmail,
+          onPressed: () => AuthMethods.signUpWithEmail(
+              context: context, email: email, password: password),
           child: const Text('Sign Up'),
         ),
         const SizedBox(height: 16),
@@ -105,7 +110,6 @@ class _SignUpPageBodyState extends State<_SignUpPageBody> {
                 children: [
               TextSpan(
                   recognizer: TapGestureRecognizer(),
-                  //..onTap = widget.toggleAuthPages,
                   text: 'Sign In',
                   style: TextStyle(
                       decoration: TextDecoration.underline,
@@ -125,7 +129,7 @@ class _SignUpPageBodyState extends State<_SignUpPageBody> {
     );
   }
 
-  checkPassword(v) {
+  _checkPassword(v) {
     if (v.length < 7) {
       return 'Password is too short';
     }
@@ -135,23 +139,7 @@ class _SignUpPageBodyState extends State<_SignUpPageBody> {
     return null;
   }
 
-  void signInWithEmail() async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ));
-    try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-  }
-
+//TODO: Add Google, Microsoft & Apple Auth Later
   void signInWithGoogle() async {
     showDialog(
         context: context,

@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:money_tracker/auth/auth_page.dart';
+
 import 'package:money_tracker/home.dart';
+
+import '../auth/login_page_body.dart';
+import '../auth/signup_page.dart';
 
 final appRoutes = <GoRoute>[
   GoRoute(
     path: '/',
     builder: (BuildContext context, GoRouterState state) {
-      return const HomePage();
+      //TODO: Change to HomePage Later
+      return const SignUpPage();
+      //return const HomePage();
     },
   ),
   GoRoute(
-    path: '/signIn',
+    path: '/logIn',
     builder: (BuildContext context, GoRouterState state) {
-      return const SignInPage();
+      return const LogInPage();
     },
   ),
   GoRoute(
