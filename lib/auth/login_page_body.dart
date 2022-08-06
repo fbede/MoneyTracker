@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 import '../utils/responsive_page.dart';
 
@@ -91,8 +92,8 @@ class _LoginPageBodyState extends State<_LoginPageBody> {
                         text: 'No Account? ',
                         children: [
                       TextSpan(
-                          recognizer:
-                              TapGestureRecognizer(), //..onTap = widget.toggleAuthPages,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () => context.go('/signUp'),
                           text: 'Sign Up',
                           style: TextStyle(
                               decoration: TextDecoration.underline,

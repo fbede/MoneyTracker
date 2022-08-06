@@ -109,7 +109,8 @@ class _SignUpPageBodyState extends State<_SignUpPageBody> {
                 text: 'Have Account? ',
                 children: [
               TextSpan(
-                  recognizer: TapGestureRecognizer(),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => context.go('/logIn'),
                   text: 'Sign In',
                   style: TextStyle(
                       decoration: TextDecoration.underline,

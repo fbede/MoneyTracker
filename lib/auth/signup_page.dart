@@ -20,10 +20,14 @@ class _MobileSignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            body: Padding(
-      padding: const EdgeInsetsDirectional.only(start: 16.0, end: 16.0),
-      child: Center(
-        child: getSignUpPageBody(),
+            body: SafeArea(
+      child: Padding(
+        padding: const EdgeInsetsDirectional.only(start: 32.0, end: 32.0),
+        child: Center(
+          child: SingleChildScrollView(
+            child: getSignUpPageBody(),
+          ),
+        ),
       ),
     )));
   }

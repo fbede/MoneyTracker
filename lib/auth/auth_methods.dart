@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 abstract class AuthMethods {
   //signs up user with email & password only
@@ -8,11 +9,16 @@ abstract class AuthMethods {
       {required BuildContext context,
       required String email,
       required String password}) async {
+    bool anyException = false;
     late BuildContext errorContext;
     late BuildContext overlayContext;
     void closeAllDialogs() {
-      Navigator.of(errorContext).pop();
-      Navigator.of(overlayContext).pop();
+      if (Navigator.of(errorContext).canPop()) {
+        Navigator.of(errorContext).pop();
+      }
+      if (Navigator.of(overlayContext).canPop()) {
+        Navigator.of(overlayContext).pop();
+      }
     }
 
     showDialog(
@@ -28,6 +34,8 @@ abstract class AuthMethods {
           .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       String error = '';
+
+      anyException = true;
 
       if (e.code == 'weak-password') {
         error = 'The password provided is too weak.';
@@ -52,6 +60,11 @@ abstract class AuthMethods {
     } catch (e) {
       if (kDebugMode) {
         print(e);
+      }
+    } finally {
+      if (anyException == false) {
+        Navigator.of(overlayContext).pop();
+        context.go('/');
       }
     }
   }

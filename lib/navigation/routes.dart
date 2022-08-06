@@ -10,9 +10,7 @@ final appRoutes = <GoRoute>[
   GoRoute(
     path: '/',
     builder: (BuildContext context, GoRouterState state) {
-      //TODO: Change to HomePage Later
-      return const SignUpPage();
-      //return const HomePage();
+      return const HomePage();
     },
   ),
   GoRoute(

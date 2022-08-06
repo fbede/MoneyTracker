@@ -1,9 +1,12 @@
 import 'dart:io';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:go_router/go_router.dart';
+import 'package:money_tracker/navigation/nav_redirect_rules.dart';
+
 import 'package:money_tracker/navigation/routes.dart';
 import 'package:money_tracker/utils/constants.dart';
 import 'package:window_size/window_size.dart';
@@ -53,16 +56,18 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return EasySplashScreen(
-      logo: Image.asset('assets/flutter_joke.png'),
-      title: Text(
-        appName,
-        style: Theme.of(context).textTheme.titleLarge,
+    return SafeArea(
+      child: EasySplashScreen(
+        logo: Image.asset('assets/flutter_joke.png'),
+        title: Text(
+          appName,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        backgroundColor: Theme.of(context).backgroundColor,
+        showLoader: true,
+        loadingText: const Text("Loading..."),
+        futureNavigator: futureCall(),
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
-      showLoader: true,
-      loadingText: const Text("Loading..."),
-      futureNavigator: futureCall(),
     );
   }
 
@@ -88,13 +93,19 @@ class SplashPage extends StatelessWidget {
     }
 
     //start actual app
-    final GoRouter router = GoRouter(routes: appRoutes);
+    final GoRouter router = GoRouter(
+        routes: appRoutes,
+        //based on firebase auth
+        redirect: (state) => NavRules.userLoggedInRule(state),
+        refreshListenable:
+            //is need for userLoggedInRule
+            GoRouterRefreshStream(FirebaseAuth.instance.authStateChanges()));
     return Future.delayed(const Duration(seconds: 6), (() {
       return MaterialApp.router(
         routeInformationParser: router.routeInformationParser,
         routeInformationProvider: router.routeInformationProvider,
         routerDelegate: router.routerDelegate,
-        //repeated here, descendant widgets use this
+        //repeated the theme here because descendant widgets use this
         title: appName,
         themeMode: ThemeMode.system,
         theme: ThemeData(
