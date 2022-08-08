@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:go_router/go_router.dart';
 import 'package:money_tracker/navigation/nav_redirect_rules.dart';
-
 import 'package:money_tracker/navigation/routes.dart';
 import 'package:money_tracker/utils/constants.dart';
 import 'package:window_size/window_size.dart';

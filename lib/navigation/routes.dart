@@ -3,10 +3,11 @@ import 'package:go_router/go_router.dart';
 
 import 'package:money_tracker/home.dart';
 
-import '../auth/login_page_body.dart';
-import '../auth/signup_page.dart';
+import '../auth/auth_pages.dart';
 
 final appRoutes = <GoRoute>[
+  //Todo Change home route based on whether user is logged in or not
+  // refactor app to work with new changes
   GoRoute(
     path: '/',
     builder: (BuildContext context, GoRouterState state) {
@@ -23,6 +24,12 @@ final appRoutes = <GoRoute>[
     path: '/signUp',
     builder: (BuildContext context, GoRouterState state) {
       return const SignUpPage();
+    },
+  ),
+  GoRoute(
+    path: '/resetPassword',
+    builder: (BuildContext context, GoRouterState state) {
+      return const PasswordResetPage();
     },
   ),
 ];
