@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:money_tracker/utils/general_input_validators.dart';
 import 'package:money_tracker/utils/regex_patterns.dart';
 
 import 'auth_methods.dart';
@@ -58,7 +59,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
             onChanged: (v) => setState(() {
               email = v;
             }),
-            validator: (value) => AuthMethods.validateEmail(value!),
+            validator: (value) => GIValidator.validateEmail(value!),
           ),
           const SizedBox(height: 24),
           TextFormField(
@@ -71,7 +72,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
             onChanged: (v) => setState(() {
               password = v;
             }),
-            validator: (v) => AuthMethods.checkPasswordLength(v!),
+            validator: (v) => GIValidator.checkPasswordLength(v!),
           ),
           const SizedBox(height: 24),
           TextFormField(
@@ -84,7 +85,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
             onChanged: (v) => setState(() {
               cpassword = v;
             }),
-            validator: (v) => AuthMethods.confirmPasswordsAreTheSame(
+            validator: (v) => GIValidator.confirmPasswordsAreTheSame(
                 password: password, confirmPassword: cpassword),
           )
         ],

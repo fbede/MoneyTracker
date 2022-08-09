@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_tracker/utils/general_input_validators.dart';
 
 import '../auth_methods.dart';
 
@@ -40,7 +41,7 @@ class _PasswordResetPageState extends State<PasswordResetPageBody> {
                 onChanged: (v) => setState(() {
                   email = v;
                 }),
-                validator: (value) => AuthMethods.validateEmail(value!),
+                validator: (value) => GIValidator.validateEmail(value!),
               ),
               const SizedBox(height: 24),
               ElevatedButton(

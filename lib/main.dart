@@ -21,31 +21,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /*Used to automatically hide keyboard when filling forms all around the app*/
-    return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          FocusScope.of(context).requestFocus(FocusNode());
-        }
-      },
-      child: TooltipVisibility(
-        visible: false,
-        //This is the actual app
-        child: MaterialApp(
-          /*shows splashscreen, initialazes other stuff then starts app*/
-          home: const SplashPage(),
-          //check constants.dart file for details
-          title: appName,
-          themeMode: ThemeMode.system,
-          theme: ThemeData(
-              colorScheme: lightColorScheme,
-              visualDensity: VisualDensity.adaptivePlatformDensity),
-          darkTheme: ThemeData(
-              colorScheme: darkColorScheme,
-              visualDensity: VisualDensity.adaptivePlatformDensity),
-        ),
-      ),
+    return MaterialApp(
+      /*shows splashscreen, initialazes other stuff then starts app*/
+      home: const SplashPage(),
+      //check constants.dart file for details
+      title: appName,
+      themeMode: ThemeMode.system,
+      theme: ThemeData(
+          colorScheme: lightColorScheme,
+          visualDensity: VisualDensity.adaptivePlatformDensity),
+      darkTheme: ThemeData(
+          colorScheme: darkColorScheme,
+          visualDensity: VisualDensity.adaptivePlatformDensity),
     );
   }
 }
@@ -100,20 +87,32 @@ class SplashPage extends StatelessWidget {
             //is need for userLoggedInRule
             GoRouterRefreshStream(FirebaseAuth.instance.authStateChanges()));
     return Future.delayed(const Duration(seconds: 6), (() {
-      return MaterialApp.router(
-        routeInformationParser: router.routeInformationParser,
-        routeInformationProvider: router.routeInformationProvider,
-        routerDelegate: router.routerDelegate,
-        //repeated the theme here because descendant widgets use this
-        title: appName,
-        themeMode: ThemeMode.system,
-        theme: ThemeData(
-            colorScheme: lightColorScheme,
-            visualDensity: VisualDensity.adaptivePlatformDensity),
-        darkTheme: ThemeData(
-            colorScheme: darkColorScheme,
-            visualDensity: VisualDensity.adaptivePlatformDensity),
-      );
+      return Builder(
+          builder: ((context) => GestureDetector(
+              onTap: () {
+                FocusScopeNode currentFocus = FocusScope.of(context);
+                if (!currentFocus.hasPrimaryFocus) {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                }
+              },
+              //Used to automatically hide keyboard when filling forms all around the app
+              child: TooltipVisibility(
+                  visible: false,
+                  //This is the actual app
+                  child: MaterialApp.router(
+                    routeInformationParser: router.routeInformationParser,
+                    routeInformationProvider: router.routeInformationProvider,
+                    routerDelegate: router.routerDelegate,
+                    //repeated the theme here because descendant widgets use this
+                    title: appName,
+                    themeMode: ThemeMode.system,
+                    theme: ThemeData(
+                        colorScheme: lightColorScheme,
+                        visualDensity: VisualDensity.adaptivePlatformDensity),
+                    darkTheme: ThemeData(
+                        colorScheme: darkColorScheme,
+                        visualDensity: VisualDensity.adaptivePlatformDensity),
+                  )))));
     }));
   }
 }
