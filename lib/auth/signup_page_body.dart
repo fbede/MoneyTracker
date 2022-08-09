@@ -104,21 +104,15 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
               style: Theme.of(context).textTheme.bodyLarge,
               text: 'Have Account? ',
               children: [
-            // TextSpan(
-            //     recognizer: TapGestureRecognizer()
-            //       ..onTap = () {
-            //         if (!Navigator.canPop(context)) {
-            //           context.go('/logIn');
-            //         } else {
-            //           Navigator.pop(context);
-            //         }
-            //       },
-            //     text: 'Sign In',
-            //     style: TextStyle(
-            //         decoration: TextDecoration.underline,
-            //         color: Theme.of(context).colorScheme.secondary)),
-            // TextSpan(
-            //     style: Theme.of(context).textTheme.bodyLarge, text: ' or '),
+            TextSpan(
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => context.go('/logIn'),
+                text: 'Sign In',
+                style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Theme.of(context).colorScheme.secondary)),
+            TextSpan(
+                style: Theme.of(context).textTheme.bodyLarge, text: ' or '),
             TextSpan(
                 recognizer: TapGestureRecognizer(),
                 //TODO: Add anonymous authentication later

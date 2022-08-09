@@ -47,7 +47,7 @@ class _DesktopLoginPage extends StatelessWidget {
                 child: Card(
                   child: Padding(
                       padding: EdgeInsetsDirectional.all(16.0),
-                      child: SignUpPageBody()),
+                      child: LoginPageBody()),
                 ),
               ),
             )));

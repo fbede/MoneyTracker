@@ -10,9 +10,6 @@ abstract class NavRules {
     final isOnAuthPage = (state.subloc == '/logIn' ||
         state.subloc == '/signUp' ||
         state.subloc == '/resetPassword');
-    final isLoggingIn = state.subloc == '/logIn';
-    final isSigningUp = state.subloc == '/signUp';
-    final isResetingPassword = state.subloc == '/resetPassword';
 
     // if the user is logged in but still on any of the auth pages,
     //send them to the home page

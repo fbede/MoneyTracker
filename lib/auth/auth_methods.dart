@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,6 @@ import '../utils/regex_patterns.dart';
 abstract class AuthMethods {
   static final dialogsThatAreOpen = <BuildContext>[];
   static bool anyException = false;
-  static String error = '';
 
   //ensures the user put an email
   static String? validateEmail(String email) {
@@ -32,7 +33,6 @@ abstract class AuthMethods {
     if (v.length < 7) {
       return 'Password is too short';
     }
-
     return null;
   }
 
@@ -57,18 +57,13 @@ abstract class AuthMethods {
           .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       anyException = true;
-
-      if (e.code == 'weak-password') {
-        error = 'The password provided is too weak.';
-      } else if (e.code == 'email-already-in-use') {
-        error = 'An account already exists for that email.';
-      }
-
-      _showAlertDialog(buildContext: context, errorMessage: error);
+      _showAlertDialog(
+          buildContext: context, errorMessage: _errorCodeToErrorMessage(e));
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
+      _showAlertDialog(buildContext: context, errorMessage: e.toString());
     } finally {
       if (anyException == false) {
         _closeAllDialogs();
@@ -84,13 +79,27 @@ abstract class AuthMethods {
     anyException = false;
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-    } on FirebaseAuthException catch (e) {
+      _closeAllDialogs();
+    } catch (e) {
       anyException = true;
-      error = e.code;
-      _showAlertDialog(buildContext: buildContext, errorMessage: error);
+      if (e is FirebaseAuthException) {
+        _showAlertDialog(
+            buildContext: buildContext,
+            errorMessage: _errorCodeToErrorMessage(e));
+      } else if (e is SocketException) {
+        _showAlertDialog(
+            buildContext: buildContext,
+            errorMessage:
+                'Could not connect to the server. Please check your internet connection');
+      } else {
+        _showAlertDialog(
+            buildContext: buildContext, errorMessage: e.toString());
+      }
+      if (kDebugMode) {
+        print(e);
+      }
     } finally {
       if (anyException == false) {
-        _closeAllDialogs();
         buildContext.go('/logIn');
       }
     }
@@ -165,5 +174,49 @@ abstract class AuthMethods {
       }
     }
     dialogsThatAreOpen.clear();
+  }
+
+  //converts the firebase exception to errors
+  static String _errorCodeToErrorMessage(FirebaseAuthException e) {
+    String errorMessage = '';
+    switch (e.code) {
+      case 'weak-password':
+        errorMessage = 'The password provided is too weak.';
+        break;
+      case 'email-already-in-use':
+        errorMessage = 'An account already exists for that email.';
+        break;
+      case 'network-request-failed':
+        errorMessage =
+            'Could not connect to the server. Please check your internet connection.';
+        break;
+      case "ERROR_INVALID_EMAIL":
+        errorMessage = 'This is not a valid email address';
+        break;
+      case "ERROR_WRONG_PASSWORD":
+        errorMessage = 'The entered password is wrong';
+        break;
+      case 'user-not-found':
+        errorMessage = 'This email is not linked to any account';
+        break;
+      case "ERROR_USER_DISABLED":
+        errorMessage = 'The account linked to this email has been disabled';
+        break;
+      case "ERROR_TOO_MANY_REQUESTS":
+        errorMessage =
+            'The server is has too many request. Kindly try again later';
+        break;
+      case "ERROR_OPERATION_NOT_ALLOWED":
+        errorMessage =
+            'What you just tried to do is not allowed. Kindly contact us for help';
+        break;
+      case "ERROR_EMAIL_ALREADY_IN_USE":
+        errorMessage =
+            'This email has already been registered to another account';
+        break;
+      default:
+        errorMessage = e.code;
+    }
+    return errorMessage;
   }
 }
