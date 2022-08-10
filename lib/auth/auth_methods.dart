@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:money_tracker/utils/exceptions/exception_handler.dart'
     as exception_handler;
 
@@ -26,9 +27,8 @@ void signInWithEmail(
   _anyException = false;
   try {
     await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email, password: password);
+        .signInWithEmailAndPassword(email: email, password: password);
   } on Exception catch (e) {
-    _anyException = true;
     _anyException = true;
     _showAlertDialog(
         buildContext: context,
@@ -64,6 +64,25 @@ void signUpWithEmail(
   }
 }
 
+//sign up user anonymously
+void skipSignUp({required BuildContext context}) async {
+  _showLoadingDialog(buildContext: context);
+  _anyException = false;
+  try {
+    await FirebaseAuth.instance.signInAnonymously();
+  } on Exception catch (e) {
+    _anyException = true;
+    _showAlertDialog(
+        buildContext: context,
+        errorMessage: exception_handler.errorMessageFromError(exception: e));
+  } finally {
+    if (_anyException == false) {
+      _closeAllDialogs();
+      context.go('/');
+    }
+  }
+}
+
 //Reset Password with email
 void resetPasswordEmail(
     {required BuildContext buildContext, required String email}) async {
@@ -83,59 +102,29 @@ void resetPasswordEmail(
   }
 }
 
-// this is meant to handle all the auths
-//started working on it because the auth method seemed repeative
-//TODO complete after signIn
-void handleAllAuth(
-    {required BuildContext context,
-    required Function authFunction,
-    List<Function> finallyBlock = const [],
-    String email = '',
-    String password = ''}) async {
-  _showLoadingDialog(buildContext: context);
+//Sign in with Google
+void googleSignIn({required BuildContext buildContext}) async {
   _anyException = false;
   try {
-    authFunction;
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    await FirebaseAuth.instance.signInWithCredential(credential);
   } on Exception catch (e) {
     _anyException = true;
     _showAlertDialog(
-        buildContext: context,
+        buildContext: buildContext,
         errorMessage: exception_handler.errorMessageFromError(exception: e));
   }
 }
 
-//TODO: Add Google, Microsoft & Apple Auth Later
-// void signInWithGoogle() async {
-//   showDialog(
-//       context: context,
-//       barrierDismissible: false,
-//       builder: (context) => const Center(
-//             child: CircularProgressIndicator(),
-//           ));
-//   try {
-//     //await FirebaseAuth.instance.signInWithCredential(credential)
-//   } on FirebaseAuthException catch (e) {
-//     if (kDebugMode) {
-//       print(e);
-//     }
-//   }
-// }
-
-// void skipSignUp() async {
-//   showDialog(
-//       context: context,
-//       barrierDismissible: false,
-//       builder: (context) => const Center(
-//             child: CircularProgressIndicator(),
-//           ));
-//   try {
-//     await FirebaseAuth.instance.signInAnonymously();
-//   } on FirebaseAuthException catch (e) {
-//     if (kDebugMode) {
-//       print(e);
-//     }
-//   }
-// }
 //shows all dialogs
 void _showLoadingDialog({required BuildContext buildContext}) {
   showDialog(

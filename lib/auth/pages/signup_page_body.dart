@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:money_tracker/utils/general_input_validators.dart';
 
 import '../auth_methods.dart' as auth_functions;
+import '../auth_methods.dart';
 import 'login_page_body.dart';
 
 class SignUpPageBody extends StatefulWidget {
@@ -30,8 +33,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
         const SizedBox(height: 24),
         _buildSignUpButton(),
         const SizedBox(height: 32),
-        buildSocialSignIn(),
-        const SizedBox(height: 32),
+        buildSocialSignIn(context: context),
         _buildBottomText()
       ]),
     );
@@ -114,9 +116,8 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
             TextSpan(
                 style: Theme.of(context).textTheme.bodyLarge, text: ' or '),
             TextSpan(
-                recognizer: TapGestureRecognizer(),
-                //TODO: Add anonymous authentication later
-                //..onTap = () => skipSignUp(),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => skipSignUp(context: context),
                 text: 'Skip',
                 style: TextStyle(
                     decoration: TextDecoration.underline,

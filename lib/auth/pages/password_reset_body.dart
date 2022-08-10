@@ -41,7 +41,7 @@ class _PasswordResetPageState extends State<PasswordResetPageBody> {
                 onChanged: (v) => setState(() {
                   email = v;
                 }),
-                validator: (value) => GIValidator.validateEmail(value!),
+                validator: (value) => validateEmail(value!),
               ),
               const SizedBox(height: 24),
               ElevatedButton(

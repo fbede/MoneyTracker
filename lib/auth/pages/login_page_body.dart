@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../utils/regex_patterns.dart';
+import 'package:money_tracker/auth/auth_methods.dart';
+import 'package:money_tracker/utils/general_input_validators.dart';
 
 class LoginPageBody extends StatefulWidget {
   const LoginPageBody({Key? key}) : super(key: key);
@@ -26,8 +28,7 @@ class _LoginPageBodyState extends State<LoginPageBody> {
         _buildForm(),
         _buildSignInButton(),
         const SizedBox(height: 32),
-        buildSocialSignIn(),
-        const SizedBox(height: 32),
+        buildSocialSignIn(context: context),
         _buildBottomText()
       ]),
     );
@@ -50,12 +51,8 @@ class _LoginPageBodyState extends State<LoginPageBody> {
                 label: Text('Email'),
                 prefixIcon: Icon(Icons.email)),
             keyboardType: TextInputType.emailAddress,
-            validator: (value) {
-              if (emailRegExPattern.hasMatch(value!)) {
-                return null;
-              }
-              return 'Please enter an email address';
-            },
+            onChanged: (v) => setState(() => email = v),
+            validator: (value) => validateEmail(value!),
           ),
           const SizedBox(height: 24),
           TextFormField(
@@ -63,7 +60,7 @@ class _LoginPageBodyState extends State<LoginPageBody> {
                 border: OutlineInputBorder(),
                 label: Text('Password'),
                 prefixIcon: Icon(Icons.key)),
-            keyboardType: TextInputType.emailAddress,
+            onChanged: (v) => setState(() => password = v),
             obscureText: true,
           ),
           const SizedBox(height: 16),
@@ -73,7 +70,6 @@ class _LoginPageBodyState extends State<LoginPageBody> {
                     ..onTap = () => context.push('/resetPassword'),
                   text: 'Forgot Password',
                   style: TextStyle(
-                      //fontSize: 16,
                       decoration: TextDecoration.underline,
                       color: Theme.of(context).colorScheme.secondary))),
           const SizedBox(height: 16),
@@ -82,7 +78,8 @@ class _LoginPageBodyState extends State<LoginPageBody> {
 
   Widget _buildSignInButton() => ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
-        onPressed: () {},
+        onPressed: () =>
+            signInWithEmail(context: context, email: email, password: password),
         child: const Text('Sign In'),
       );
 
@@ -101,9 +98,8 @@ class _LoginPageBodyState extends State<LoginPageBody> {
             TextSpan(
                 style: Theme.of(context).textTheme.bodyLarge, text: ' or '),
             TextSpan(
-                recognizer: TapGestureRecognizer(),
-                //TODO: Add anonymous authentication later
-                //..onTap = widget.openLoginPage,
+                recognizer: TapGestureRecognizer()
+                  ..onTap = (() => skipSignUp(context: context)),
                 text: 'Skip',
                 style: TextStyle(
                     decoration: TextDecoration.underline,
@@ -119,9 +115,20 @@ Widget buildIcon() => const FittedBox(
       ),
     );
 
-Widget buildSocialSignIn() => ElevatedButton(
-      style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
-      //TODO: Add google signup
-      onPressed: () {},
-      child: const FaIcon(FontAwesomeIcons.google),
+Widget buildSocialSignIn({required BuildContext context}) {
+  if (Platform.isIOS || Platform.isAndroid) {
+    return Column(
+      children: [
+        ElevatedButton(
+          style:
+              ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
+          //TODO: Add google signup
+          onPressed: () => googleSignIn(buildContext: context),
+          child: const FaIcon(FontAwesomeIcons.google),
+        ),
+        const SizedBox(height: 32),
+      ],
     );
+  }
+  return const SizedBox(height: 0);
+}
