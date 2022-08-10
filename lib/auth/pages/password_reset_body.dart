@@ -47,8 +47,8 @@ class _PasswordResetPageState extends State<PasswordResetPageBody> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(40)),
-                onPressed: () => AuthMethods.resetPasswordEmail(
-                    buildContext: context, email: email),
+                onPressed: () =>
+                    resetPasswordEmail(buildContext: context, email: email),
                 child: const Text('Reset'),
               )
             ],

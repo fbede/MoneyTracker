@@ -2,9 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:money_tracker/utils/general_input_validators.dart';
-import 'package:money_tracker/utils/regex_patterns.dart';
 
-import 'auth_methods.dart';
+import '../auth_methods.dart' as auth_functions;
 import 'login_page_body.dart';
 
 class SignUpPageBody extends StatefulWidget {
@@ -59,7 +58,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
             onChanged: (v) => setState(() {
               email = v;
             }),
-            validator: (value) => GIValidator.validateEmail(value!),
+            validator: (value) => validateEmail(value!),
           ),
           const SizedBox(height: 24),
           TextFormField(
@@ -72,7 +71,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
             onChanged: (v) => setState(() {
               password = v;
             }),
-            validator: (v) => GIValidator.checkPasswordLength(v!),
+            validator: (v) => checkPasswordLength(v!),
           ),
           const SizedBox(height: 24),
           TextFormField(
@@ -85,7 +84,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
             onChanged: (v) => setState(() {
               cpassword = v;
             }),
-            validator: (v) => GIValidator.confirmPasswordsAreTheSame(
+            validator: (v) => confirmPasswordsAreTheSame(
                 password: password, confirmPassword: cpassword),
           )
         ],
@@ -95,7 +94,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
         style: ElevatedButton.styleFrom(
           minimumSize: const Size.fromHeight(40),
         ),
-        onPressed: () => AuthMethods.signUpWithEmail(
+        onPressed: () => auth_functions.signUpWithEmail(
             context: context, email: email, password: password),
         child: const Text('Sign Up'),
       );

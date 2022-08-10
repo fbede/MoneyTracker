@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
-import '../utils/regex_patterns.dart';
+import '../../utils/regex_patterns.dart';
 
 class LoginPageBody extends StatefulWidget {
   const LoginPageBody({Key? key}) : super(key: key);

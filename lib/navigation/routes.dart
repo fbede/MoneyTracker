@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:money_tracker/home.dart';
 
-import '../auth/auth_pages.dart';
+import '../auth/pages/auth_pages.dart';
 
 final appRoutes = <GoRoute>[
   //Todo Change home route based on whether user is logged in or not

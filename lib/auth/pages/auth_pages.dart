@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../utils/responsive_page.dart';
+import '../../utils/responsive_page.dart';
 import 'login_page_body.dart';
-import 'pages/password_reset_body.dart';
+import 'password_reset_body.dart';
 import 'signup_page_body.dart';
 
 // This shows the Login Page

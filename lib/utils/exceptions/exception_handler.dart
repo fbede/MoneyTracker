@@ -1,4 +1,3 @@
-//TODO: Handle all app wide exceptions
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,18 +5,18 @@ import 'package:flutter/foundation.dart';
 import 'package:money_tracker/utils/exceptions/exception_codes.dart';
 import 'package:money_tracker/utils/exceptions/exception_responses.dart';
 
-abstract class ExeceptionHandler {
-  static String errorMessageFromError({required Exception exception}) {
-    if (kDebugMode) {
-      print(exception);
-    }
-    if (exception is FirebaseAuthException) {
-      return _handleFirebaseAuthException(exception);
-    } else if (exception is SocketException) {
-      return 'Could not connect to the server. Please check your internet connection';
-    } else {
-      return exception.toString();
-    }
+export 'exception_handler.dart' show errorMessageFromError;
+
+String errorMessageFromError({required Exception exception}) {
+  if (kDebugMode) {
+    print(exception);
+  }
+  if (exception is FirebaseAuthException) {
+    return _handleFirebaseAuthException(exception);
+  } else if (exception is SocketException) {
+    return 'Could not connect to the server. Please check your internet connection';
+  } else {
+    return exception.toString();
   }
 }
 
