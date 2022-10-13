@@ -1,27 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:money_tracker/dashboard/dashboard_page.dart';
+import 'package:go_router/go_router.dart';
+import 'package:money_tracker/app/accounts/accounts_page.dart';
+import 'package:money_tracker/app/dashboard/dashboard_page.dart';
+import 'package:money_tracker/app/reports/reports_page.dart';
+import 'package:money_tracker/app/settings/settings_page.dart';
+import 'package:money_tracker/navigation/main_routes.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final int pageIndex;
+  const HomePage({Key? key, this.pageIndex = 0}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
-
   // TODO: Add actual pages to list below
   final pages = <Widget>[
     const DashboardPage(),
+    const AccountsPage(),
+    //this sizedbox is a placeholder for null and is never called/created
+    const SizedBox(height: 0, width: 0),
+    const ReportsPage(),
+    const SettingsPage()
   ];
 
   @override
   Widget build(BuildContext context) {
+    int currentIndex = widget.pageIndex;
+
     return SafeArea(
         child: Scaffold(
       body: IndexedStack(
-        index: _currentIndex,
+        index: currentIndex,
         children: pages,
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -36,12 +47,12 @@ class _HomePageState extends State<HomePage> {
           landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
           elevation: 2,
           type: BottomNavigationBarType.fixed,
-          currentIndex: _currentIndex,
-          onTap: (index) => setState(() {
-                if (index != 2) {
-                  _currentIndex = index;
-                }
-              }),
+          currentIndex: currentIndex,
+          onTap: (index) {
+            if (index != 2) {
+              _goToPage(index);
+            }
+          },
           items: const [
             BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),
@@ -95,5 +106,24 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         });
+  }
+
+  void _goToPage(int index) {
+    switch (index) {
+      case 0:
+        context.goNamed(dashboardPath);
+        break;
+      case 1:
+        context.goNamed(accountsPath);
+        break;
+      case 3:
+        context.goNamed(reportsPath);
+        break;
+      case 4:
+        context.goNamed(settingsPath);
+        break;
+      default:
+        context.goNamed(homePath);
+    }
   }
 }

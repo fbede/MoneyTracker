@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -84,10 +82,10 @@ class _LoginPageBodyState extends State<LoginPageBody> {
       );
 
   Widget _buildBottomText() => RichText(
-          text: TextSpan(
-              style: Theme.of(context).textTheme.bodyLarge,
-              text: 'No Account? ',
-              children: [
+        text: TextSpan(
+          style: Theme.of(context).textTheme.bodyLarge,
+          text: 'No Account? ',
+          children: [
             TextSpan(
                 recognizer: TapGestureRecognizer()
                   ..onTap = () => context.push('/signUp'),
@@ -104,7 +102,9 @@ class _LoginPageBodyState extends State<LoginPageBody> {
                 style: TextStyle(
                     decoration: TextDecoration.underline,
                     color: Theme.of(context).colorScheme.secondary)),
-          ]));
+          ],
+        ),
+      );
 }
 
 Widget buildIcon() => const FittedBox(
@@ -116,13 +116,15 @@ Widget buildIcon() => const FittedBox(
     );
 
 Widget buildSocialSignIn({required BuildContext context}) {
-  if (Platform.isIOS || Platform.isAndroid) {
+  // ignore: dead_code
+  if (true) {
+    // use line below instead of false for when Google auth is working on all platforms
+    //Platform.isIOS || Platform.isAndroid
     return Column(
       children: [
         ElevatedButton(
           style:
               ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
-          //TODO: Add google signup
           onPressed: () => googleSignIn(buildContext: context),
           child: const FaIcon(FontAwesomeIcons.google),
         ),

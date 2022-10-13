@@ -10,7 +10,7 @@ class LogInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsivePage.buildResponsivePage(
+    return buildResponsivePage(
         const _MobileLogInPage(), const _DesktopLoginPage());
   }
 }
@@ -22,7 +22,7 @@ class _MobileLogInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            appBar: ResponsivePage.optionalAppBar(),
+            appBar: optionalAppBar(),
             body: const Padding(
               padding: EdgeInsetsDirectional.only(start: 32.0, end: 32.0),
               child: Center(
@@ -39,7 +39,7 @@ class _DesktopLoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            appBar: ResponsivePage.optionalAppBar(),
+            appBar: optionalAppBar(),
             body: const Center(
               child: SizedBox(
                 width: 350,
@@ -59,7 +59,7 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsivePage.buildResponsivePage(
+    return buildResponsivePage(
         const _MobileSignUpPage(), const _DesktopSignUpPage());
   }
 }
@@ -71,7 +71,7 @@ class _MobileSignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            appBar: ResponsivePage.optionalAppBar(),
+            appBar: optionalAppBar(),
             body: const SafeArea(
               child: Padding(
                 padding: EdgeInsetsDirectional.only(start: 32.0, end: 32.0),
@@ -90,7 +90,7 @@ class _DesktopSignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            appBar: ResponsivePage.optionalAppBar(),
+            appBar: optionalAppBar(),
             body: const Center(
               child: SizedBox(
                 width: 350,
@@ -110,7 +110,7 @@ class PasswordResetPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsivePage.buildResponsivePage(
+    return buildResponsivePage(
         const _MobilePasswordResetPage(), const _DesktopPasswordResetPage());
   }
 }
@@ -122,7 +122,7 @@ class _MobilePasswordResetPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            appBar: ResponsivePage.optionalAppBar(),
+            appBar: optionalAppBar(),
             body: const SafeArea(
               child: Padding(
                 padding: EdgeInsetsDirectional.only(start: 32.0, end: 32.0),
@@ -141,7 +141,7 @@ class _DesktopPasswordResetPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            appBar: ResponsivePage.optionalAppBar(),
+            appBar: optionalAppBar(),
             body: const Center(
               child: SizedBox(
                 width: 350,

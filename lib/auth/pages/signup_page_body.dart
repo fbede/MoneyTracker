@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -57,9 +55,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                 label: Text('Email'),
                 prefixIcon: Icon(Icons.email)),
             keyboardType: TextInputType.emailAddress,
-            onChanged: (v) => setState(() {
-              email = v;
-            }),
+            onChanged: (v) => setState(() => email = v),
             validator: (value) => validateEmail(value!),
           ),
           const SizedBox(height: 24),
@@ -83,9 +79,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                 prefixIcon: Icon(Icons.key)),
             keyboardType: TextInputType.emailAddress,
             obscureText: true,
-            onChanged: (v) => setState(() {
-              cpassword = v;
-            }),
+            onChanged: (v) => setState(() => cpassword = v),
             validator: (v) => confirmPasswordsAreTheSame(
                 password: password, confirmPassword: cpassword),
           )
@@ -102,10 +96,10 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
       );
 
   Widget _buildBottomText() => RichText(
-          text: TextSpan(
-              style: Theme.of(context).textTheme.bodyLarge,
-              text: 'Have Account? ',
-              children: [
+        text: TextSpan(
+          style: Theme.of(context).textTheme.bodyLarge,
+          text: 'Have Account? ',
+          children: [
             TextSpan(
                 recognizer: TapGestureRecognizer()
                   ..onTap = () => context.go('/logIn'),
@@ -116,11 +110,14 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
             TextSpan(
                 style: Theme.of(context).textTheme.bodyLarge, text: ' or '),
             TextSpan(
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => skipSignUp(context: context),
-                text: 'Skip',
-                style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: Theme.of(context).colorScheme.secondary)),
-          ]));
+              recognizer: TapGestureRecognizer()
+                ..onTap = () => skipSignUp(context: context),
+              text: 'Skip',
+              style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  color: Theme.of(context).colorScheme.secondary),
+            ),
+          ],
+        ),
+      );
 }

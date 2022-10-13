@@ -1,12 +1,13 @@
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in_dartio/google_sign_in_dartio.dart';
 import 'package:money_tracker/navigation/nav_redirect_rules.dart';
-import 'package:money_tracker/navigation/routes.dart';
+import 'package:money_tracker/navigation/main_routes.dart';
 import 'package:money_tracker/utils/constants.dart';
 import 'package:window_size/window_size.dart';
 import 'firebase_options.dart';
@@ -62,25 +63,34 @@ class SplashPage extends StatelessWidget {
     WidgetsFlutterBinding.ensureInitialized();
 
     //set desktop window sizing
-    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-      setWindowTitle(appName);
-      setWindowMinSize(const Size(300, 300));
-      setWindowMaxSize(Size.infinite);
-    }
+    if (!kIsWeb) {
+      if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+        setWindowTitle(appName);
+        setWindowMinSize(const Size(300, 300));
+        setWindowMaxSize(Size.infinite);
+      }
 
-    //Initialize firebase
-    if ((defaultTargetPlatform == TargetPlatform.windows) ||
-        (defaultTargetPlatform == TargetPlatform.linux)) {
-      await Firebase.initializeApp(options: DefaultFirebaseOptions.web);
-    } else {
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
+      //Initialize firebase
+      if ((defaultTargetPlatform == TargetPlatform.windows) ||
+          (defaultTargetPlatform == TargetPlatform.linux)) {
+        await Firebase.initializeApp(options: DefaultFirebaseOptions.web);
+      } else {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
+      }
+
+      //sets google sign in for desktop
+      if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+        await GoogleSignInDart.register(
+            clientId:
+                '377376525654-gjolf7sehfe09233brlodk5ebqlt4bf7.apps.googleusercontent.com');
+      }
     }
 
     //start actual app
     final GoRouter router = GoRouter(
-        routes: appRoutes,
+        routes: appMainRoutes,
         //based on firebase auth
         redirect: (state) => NavRules.userLoggedInRule(state),
         refreshListenable:
